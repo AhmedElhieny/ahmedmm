@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#123b63">
+    <title>بيان تشغيل سيارات شمال المنيا</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="app-header no-print">
+        <div class="brand-mark">ش</div>
+        <div>
+            <h1>بيان تشغيل السيارات</h1>
+            <p>شمال المنيا · الاستمارة اليومية</p>
+        </div>
+        <span class="status-pill">● جاهز للتحرير</span>
+    </header>
+
+    <main class="app-shell">
+
+        <section class="toolbar no-print">
+            <div class="toolbar-copy">
+                <strong>استمارة التشغيل اليومية</strong>
+                <span>البيانات المطبوعة ثابتة، والخانات الزرقاء قابلة للكتابة.</span>
+            </div>
+
+            <div class="actions">
+                <button id="shareBtn" class="btn primary" type="button">
+                    ↗ مشاركة على واتساب
+                </button>
+                <button id="downloadBtn" class="btn secondary" type="button">
+                    ↓ تنزيل الصورة
+                </button>
+                <button id="resetBtn" class="btn quiet" type="button">
+                    مسح الكتابة
+                </button>
+            </div>
+        </section>
+
+        <div class="hint no-print">
+            ✎ اضغط على الخانات الزرقاء الفاتحة واكتب بيانات اليوم.
+            التاريخ قابل للتعديل أيضًا.
+        </div>
+
+        <section class="paper-wrap">
+            <article id="report" class="paper">
+
+                <!-- اللوجوهات -->
+                <div class="logos-row">
+
+                    <!-- اللوجو الأيمن -->
+                    <img src="./OIP.webp" alt="اللوجو الأيمن" class="report-logo">
+
+                    <!-- الهيدر في المنتصف -->
+                    <h3 class="center-header">
+                        الشركة المصرية لنقل وتوصيل الغاز "بوتاجاسكو"
+                    </h3>
+                    <h4 class="center-header">
+                        الادارة العامة المساعدة للعمليات بالمنيا
+                    </h4>
+
+                    <!-- اللوجو الأيسر -->
+                    <img src="./ss.webp" alt="اللوجو الأيسر" class="report-logo">
+
+                </div>
+
+                <!-- التاريخ والعنوان -->
+                <div class="paper-topline">
+                    <div class="date-block">
+                        <b>الموافق</b>
+                        <span id="reportDate" class="editable date-value" contenteditable="true" spellcheck="false"
+                            aria-label="التاريخ">١ / ٨ / ٢٠٢٦</span>
+                    </div>
+
+                    <h2>بيان تشغيل سيارات شمال المنيا عن يوم</h2>
+                </div>
+
+                <!-- جدول التشغيل -->
+                <div class="table-frame">
+                    <table class="report-table">
+                        <colgroup>
+                            <col class="num">
+                            <col class="car">
+                            <col class="driver">
+                            <col class="load">
+                            <col class="store">
+                            <col class="operation">
+                            <col class="notes">
+                        </colgroup>
+
+                        <thead>
+                            <tr>
+                                <th>م</th>
+                                <th>السيارة</th>
+                                <th>السائق</th>
+                                <th>الحمولة</th>
+                                <th>المخزن</th>
+                                <th>التشغيل</th>
+                                <th>ملاحظات</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="reportRows"></tbody>
+                    </table>
+                </div>
+
+           <!-- التوقيعات -->
+<footer class="signatures">
+    <!-- مدير عام مساعد - على الشمال -->
+    <div>
+                   <b>مدير  ادارة</b>
+             <span>أ / أحمد مصطفى محمد الحيني</span>  
+    </div>
+
+    <!-- مدير الإدارة - على اليمين -->
+    <div>
+        <b>مدير عام مساعد</b>
+        <span>أ /  إيهاب شعبان محمد</span>
+    </div>
+</footer>
+
+
+        </p>
+
+
+        <script src="script.js"></script>
+</body>
+
+</html>
