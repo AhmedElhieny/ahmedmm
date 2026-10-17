@@ -1,133 +1,866 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#123b63">
-    <title>بيان تشغيل سيارات شمال المنيا</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123653">
+<title>بيان تشغيل سيارات شمال المنيا</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --navy: #173d60;
+    --blue: #245981;
+    --line: #385570;
+    --pale: #edf5fc;
+    --white: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: #e9eef4;
+    color: #101820;
+    font-family: "Cairo", Tahoma, Arial, sans-serif;
+}
+
+.toolbar {
+    max-width: 1160px;
+    margin: 0 auto 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.toolbar button {
+    padding: 11px 18px;
+    border: 0;
+    border-radius: 8px;
+    color: white;
+    background: var(--navy);
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.toolbar button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+    box-shadow: 0 5px 15px #173d6020;
+}
+
+.toolbar button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.btn-download { background: #176c43 !important; }
+.btn-whatsapp { background: #159b53 !important; }
+.btn-print { background: #586b7e !important; }
+
+.status {
+    flex-basis: 100%;
+    min-height: 22px;
+    text-align: center;
+    font-size: 12px;
+    color: #435a70;
+}
+
+.sheet {
+    width: 100%;
+    max-width: 1160px;
+    min-height: 767px;
+    margin: auto;
+    padding: 24px 24px 28px;
+    background: var(--white);
+    border: 1px solid #d2dbe4;
+    box-shadow: 0 8px 32px #19364d12;
+    overflow: hidden;
+}
+
+/* رأس البيان: الشعارات والعنوان في المنتصف */
+.header {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr) 76px;
+    align-items: start;
+    gap: 15px;
+    min-height: 96px;
+}
+
+.logo {
+    width: 66px;
+    height: 66px;
+    object-fit: contain;
+    justify-self: center;
+}
+
+.logo-fallback {
+    width: 62px;
+    height: 62px;
+    border: 2px solid #315b7e;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 800;
+    color: #315b7e;
+}
+
+.heading {
+    text-align: center;
+    padding-top: 8px;
+    min-width: 0;
+}
+
+.heading-main {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 900;
+    line-height: 1.8;
+    color: #142f49;
+}
+
+.heading-sub {
+    margin-top: 2px;
+    font-size: 13px;
+    line-height: 1.8;
+    font-weight: 800;
+    color: #334d65;
+}
+
+/* العنوان والتاريخ */
+.title-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    margin: 7px 0 14px;
+}
+
+.main-title {
+    margin: 0;
+    text-align: center;
+    font-size: 21px;
+    font-weight: 900;
+    color: #102e49;
+}
+
+.date-box {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.date-entry {
+    direction: ltr;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 5px 7px;
+    border: 1px solid #e0a62c;
+    border-radius: 7px;
+    background: #fff9e8;
+    box-shadow: 0 0 0 0 #eab94350;
+    animation: dateGlow 1.8s ease-in-out infinite;
+}
+
+.date-year {
+    color: #183e62;
+    font-weight: 900;
+    font-size: 14px;
+}
+
+.date-part {
+    width: 25px;
+    height: 27px;
+    padding: 2px;
+    border: 0;
+    border-bottom: 2px solid #d7a12b;
+    border-radius: 3px;
+    background: #fff;
+    color: #173d60;
+    text-align: center;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 900;
+    outline: none;
+}
+
+.date-part:focus {
+    border-bottom-color: #176caa;
+    background: #eef7ff;
+}
+
+.date-separator {
+    font-weight: 900;
+    color: #b27b12;
+}
+
+@keyframes dateGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 #eab94320;
+        border-color: #e0a62c;
+    }
+    50% {
+        box-shadow: 0 0 0 4px #eab94324;
+        border-color: #bd8315;
+    }
+}
+
+/* الجدول */
+.table-wrap { width: 100%; }
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.col-number { width: 4%; }
+.col-car { width: 15%; }
+.col-driver { width: 21%; }
+.col-allowance { width: 12%; }
+.col-garage { width: 15%; }
+.col-operation { width: 15%; }
+.col-notes { width: 18%; }
+
+thead th {
+    height: 37px;
+    padding: 6px 4px;
+    color: #fff;
+    background: var(--navy);
+    border: 1px solid var(--navy);
+    font-size: 12px;
+    font-weight: 900;
+}
+
+tbody td {
+    height: 32.5px;
+    padding: 5px 4px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid var(--line);
+    background: #fff;
+    overflow-wrap: anywhere;
+    transition: background .15s;
+}
+
+tbody tr:nth-child(even) td {
+    background: #f1f6fb;
+}
+
+tbody td.shaded {
+    background: #eaf3fc;
+}
+
+tbody tr:nth-child(even) td.shaded {
+    background: #e3eef9;
+}
+
+tbody td.entry-cell {
+    cursor: text;
+    outline: none;
+    box-shadow: inset 0 0 0 0 transparent;
+}
+
+tbody td.entry-cell:focus {
+    background: #fff9e7 !important;
+    box-shadow: inset 0 0 0 2px #d6a33c;
+}
+
+tbody td.entry-cell:empty::after {
+    content: "";
+}
+
+/* التوقيعات */
+.signatures {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 23px;
+    padding: 0 8px;
+}
+
+.signature {
+    width: 42%;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.signature .person {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.hint {
+    max-width: 1160px;
+    margin: 12px auto 0;
+    text-align: center;
+    color: #617487;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+@media (max-width: 760px) {
+    body { padding: 8px; }
+
+    .sheet {
+        padding: 12px;
+        min-height: auto;
+    }
+
+    .header {
+        grid-template-columns: 44px minmax(0, 1fr) 44px;
+        gap: 5px;
+        min-height: 82px;
+    }
+
+    .logo, .logo-fallback {
+        width: 40px;
+        height: 40px;
+    }
+
+    .heading { padding-top: 3px; }
+
+    .heading-main {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .heading-sub {
+        font-size: 10px;
+        line-height: 1.7;
+    }
+
+    .title-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .main-title {
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .date-box {
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table { min-width: 700px; }
+
+    .signatures { margin-top: 18px; }
+
+    .signature, .signature .person { font-size: 10px; }
+
+    .toolbar button {
+        padding: 9px 11px;
+        font-size: 12px;
+    }
+}
+
+@media print {
+    @page {
+        size: A4 landscape;
+        margin: 5mm;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+
+    .toolbar, .hint { display: none !important; }
+
+    .sheet {
+        width: 100%;
+        max-width: none;
+        min-height: auto;
+        padding: 8px;
+        box-shadow: none;
+        border: 0;
+    }
+
+    thead th, tbody td {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .date-entry {
+        animation: none;
+        box-shadow: none;
+    }
+}
+
+.sheet.exporting {
+    box-shadow: none;
+}
+
+.sheet.exporting .date-entry {
+    animation: none !important;
+    box-shadow: none !important;
+}
+</style>
 </head>
 
 <body>
 
-    <header class="app-header no-print">
-        <div class="brand-mark">ش</div>
+<div class="toolbar">
+    <button class="btn-download" id="downloadButton" onclick="downloadImage()">
+        تنزيل البيان PNG
+    </button>
+
+    <button class="btn-whatsapp" id="whatsappButton" onclick="shareWhatsApp()">
+        مشاركة واتساب
+    </button>
+
+    <button class="btn-print" onclick="window.print()">
+        طباعة البيان
+    </button>
+
+    <div class="status" id="status" aria-live="polite">
+        اكتب بيانات السائق والتشغيل والملاحظات والتاريخ، ثم نزّل البيان أو شاركه.
+    </div>
+</div>
+
+<main class="sheet" id="sheet">
+
+    <header class="header">
+
         <div>
-            <h1>بيان تشغيل السيارات</h1>
-            <p>شمال المنيا · الاستمارة اليومية</p>
+            <img class="logo"
+                 src="./b.webp"
+                 alt="شعار الإدارة"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="display:none">شعار الإدارة</div>
         </div>
-        <span class="status-pill">● جاهز للتحرير</span>
+
+        <div class="heading">
+            <h2 class="heading-main">
+                الإدارة العامة المساعدة للعمليات بالمنيا
+            </h2>
+            <div class="heading-sub">
+                الشركة المصرية للنقل وتوصيل الغاز "بوتاجاسكو"
+            </div>
+        </div>
+
+        <div>
+            <img class="logo"
+                 src="./z.webp"
+                 alt="شعار الشركة"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="logo-fallback" style="display:none">شعار الشركة</div>
+        </div>
+
     </header>
 
-    <main class="app-shell">
+    <section class="title-row">
 
-        <section class="toolbar no-print">
-            <div class="toolbar-copy">
-                <strong>استمارة التشغيل اليومية</strong>
-                <span>البيانات المطبوعة ثابتة، والخانات الزرقاء قابلة للكتابة.</span>
+        <h1 class="main-title">
+            بيان تشغيل سيارات شمال المنيا  
+        </h1>
+
+        <div class="date-box">
+            <span>الموافق</span>
+
+            <div class="date-entry" id="dateEntry">
+                <span class="date-year">2026</span>
+                <span class="date-separator">/</span>
+                <input
+                    class="date-part"
+                    id="monthInput"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="2"
+                    aria-label="الشهر"
+                    autocomplete="off">
+                <span class="date-separator">/</span>
+                <input
+                    class="date-part"
+                    id="dayInput"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="2"
+                    aria-label="اليوم"
+                    autocomplete="off">
             </div>
-
-            <div class="actions">
-                <button id="shareBtn" class="btn primary" type="button">
-                    ↗ مشاركة على واتساب
-                </button>
-                <button id="downloadBtn" class="btn secondary" type="button">
-                    ↓ تنزيل الصورة
-                </button>
-                <button id="resetBtn" class="btn quiet" type="button">
-                    مسح الكتابة
-                </button>
-            </div>
-        </section>
-
-        <div class="hint no-print">
-            ✎ اضغط على الخانات الزرقاء الفاتحة واكتب بيانات اليوم.
-            التاريخ قابل للتعديل أيضًا.
         </div>
 
-        <section class="paper-wrap">
-            <article id="report" class="paper">
+    </section>
 
-                <!-- اللوجوهات -->
-                <div class="logos-row">
+    <div class="table-wrap">
 
-                    <!-- اللوجو الأيمن -->
-                    <img src="./OIP.webp" alt="اللوجو الأيمن" class="report-logo">
+        <table id="carsTable">
+            <colgroup>
+                <col class="col-number">
+                <col class="col-car">
+                <col class="col-driver">
+                <col class="col-allowance">
+                <col class="col-garage">
+                <col class="col-operation">
+                <col class="col-notes">
+            </colgroup>
 
-                    <!-- الهيدر في المنتصف -->
-                    <h3 class="center-header">
-                        الشركة المصرية لنقل وتوصيل الغاز "بوتاجاسكو"
-                    </h3>
-                    <h4 class="center-header">
-                        الادارة العامة المساعدة للعمليات بالمنيا
-                    </h4>
+            <thead>
+                <tr>
+                    <th>م</th>
+                    <th>السيارة</th>
+                    <th>السائق</th>
+                    <th>الحمولة</th>
+                    <th>المخزن</th>
+                    <th>التشغيل</th>
+                    <th>ملاحظات</th>
+                </tr>
+            </thead>
 
-                    <!-- اللوجو الأيسر -->
-                    <img src="./ss.webp" alt="اللوجو الأيسر" class="report-logo">
+            <tbody id="carsBody">
+                <!-- البيانات الثابتة، وخانات الإدخال فارغة -->
+            </tbody>
+        </table>
 
-                </div>
-
-                <!-- التاريخ والعنوان -->
-                <div class="paper-topline">
-                    <div class="date-block">
-                        <b>الموافق</b>
-                        <span id="reportDate" class="editable date-value" contenteditable="true" spellcheck="false"
-                            aria-label="التاريخ">١ / ٨ / ٢٠٢٦</span>
-                    </div>
-
-                    <h2>بيان تشغيل سيارات شمال المنيا عن يوم</h2>
-                </div>
-
-                <!-- جدول التشغيل -->
-                <div class="table-frame">
-                    <table class="report-table">
-                        <colgroup>
-                            <col class="num">
-                            <col class="car">
-                            <col class="driver">
-                            <col class="load">
-                            <col class="store">
-                            <col class="operation">
-                            <col class="notes">
-                        </colgroup>
-
-                        <thead>
-                            <tr>
-                                <th>م</th>
-                                <th>السيارة</th>
-                                <th>السائق</th>
-                                <th>الحمولة</th>
-                                <th>المخزن</th>
-                                <th>التشغيل</th>
-                                <th>ملاحظات</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="reportRows"></tbody>
-                    </table>
-                </div>
-
-           <!-- التوقيعات -->
-<footer class="signatures">
-    <!-- مدير عام مساعد - على الشمال -->
-    <div>
-                   <b>مدير  ادارة</b>
-             <span>أ / أحمد مصطفى محمد الحيني</span>  
     </div>
 
-    <!-- مدير الإدارة - على اليمين -->
-    <div>
-        <b>مدير عام مساعد</b>
-        <span>أ /  إيهاب شعبان محمد</span>
-    </div>
-</footer>
+    <footer class="signatures">
+        <div class="signature">
+            مدير إدارة
+            <span class="person">أ / أحمد مصطفى محمد الحيني</span>
+        </div>
 
+        <div class="signature">
+            مدير عام مساعد
+            <span class="person">أ / إيهاب شعبان محمد</span>
+        </div>
+    </footer>
 
-        </p>
+</main>
 
+<div class="hint">
+    البيانات التي تكتبها في الخانات المخصصة تُمسح بعد تنزيل الصورة أو إتمام المشاركة.
+</div>
 
-        <script src="script.js"></script>
+<script>
+"use strict";
+
+const sheet = document.getElementById("sheet");
+const statusBox = document.getElementById("status");
+const carsBody = document.getElementById("carsBody");
+
+const originalCars = [
+    ["3147", "250", "سمالوط"],
+    ["3512", "200", "شوشة"],
+    ["4826", "200", "شوشة"],
+    ["6945", "200", "شوشة"],
+    ["6237", "200", "سمالوط"],
+    ["9834", "200", "حلوة"],
+    ["7169", "200", "صفط"],
+    ["5341", "100", "سمالوط"],
+    ["8693", "100", "أبوان"],
+    ["7624", "100", "أبوان"],
+    ["6948", "100", "أبوان"],
+    ["1938", "100", "صفط"],
+    ["8247", "100", "صفط"],
+    ["7463", "100", "شارونة"]
+];
+
+function setStatus(message) {
+    statusBox.textContent = message;
+}
+
+function arabicNumber(value) {
+    return String(value).replace(/\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[digit]);
+}
+
+/* إنشاء الجدول الثابت مع خانات فارغة للكتابة */
+function buildTable() {
+    carsBody.replaceChildren();
+
+    originalCars.forEach((car, index) => {
+        const row = document.createElement("tr");
+
+        const number = document.createElement("td");
+        number.className = "shaded";
+        number.textContent = arabicNumber(index + 1);
+        row.appendChild(number);
+
+        const carNumber = document.createElement("td");
+        carNumber.textContent = car[0];
+        row.appendChild(carNumber);
+
+        // السائق: فارغ وقابل للكتابة
+        const driver = document.createElement("td");
+        driver.className = "shaded entry-cell";
+        driver.contentEditable = "true";
+        driver.setAttribute("data-entry", "true");
+        driver.spellcheck = false;
+        row.appendChild(driver);
+
+        const allowance = document.createElement("td");
+        allowance.textContent = car[1];
+        row.appendChild(allowance);
+
+        const garage = document.createElement("td");
+        garage.textContent = car[2];
+        row.appendChild(garage);
+
+        // التشغيل: فارغ وقابل للكتابة
+        const operation = document.createElement("td");
+        operation.className = "shaded entry-cell";
+        operation.contentEditable = "true";
+        operation.setAttribute("data-entry", "true");
+        operation.spellcheck = false;
+        row.appendChild(operation);
+
+        // الملاحظات: فارغة وقابلة للكتابة
+        const notes = document.createElement("td");
+        notes.className = "shaded entry-cell";
+        notes.contentEditable = "true";
+        notes.setAttribute("data-entry", "true");
+        notes.spellcheck = false;
+        row.appendChild(notes);
+
+        carsBody.appendChild(row);
+    });
+}
+
+buildTable();
+
+/* السماح بالأرقام الإنجليزية والعربية في التاريخ */
+function normalizeDigits(value) {
+    return value
+        .replace(/[٠-٩]/g, digit => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(digit)])
+        .replace(/[۰-۹]/g, digit => "0123456789"["۰۱۲۳۴۵۶۷۸۹".indexOf(digit)]);
+}
+
+["monthInput", "dayInput"].forEach(id => {
+    const input = document.getElementById(id);
+
+    input.addEventListener("input", () => {
+        input.value = normalizeDigits(input.value).replace(/\D/g, "").slice(0, 2);
+    });
+});
+
+/* تجهيز الخطوط والصور قبل التصوير */
+async function prepareSheet() {
+    if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+    }
+
+    const images = Array.from(sheet.querySelectorAll("img"));
+
+    await Promise.all(images.map(img => {
+        if (img.complete) return Promise.resolve();
+
+        return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve;
+        });
+    }));
+}
+
+/* بناء صورة البيان */
+async function makeCanvas() {
+    if (typeof html2canvas !== "function") {
+        throw new Error("مكتبة الصور لم تُحمّل. تأكد من اتصال الإنترنت.");
+    }
+
+    await prepareSheet();
+
+    sheet.classList.add("exporting");
+
+    try {
+        return await html2canvas(sheet, {
+            scale: 3,
+            backgroundColor: "#ffffff",
+            useCORS: true,
+            logging: false,
+            width: sheet.scrollWidth,
+            windowWidth: Math.max(
+                document.documentElement.clientWidth,
+                sheet.scrollWidth
+            ),
+            onclone: clonedDocument => {
+                const clonedSheet = clonedDocument.getElementById("sheet");
+
+                clonedSheet.style.width = sheet.offsetWidth + "px";
+                clonedSheet.style.maxWidth = "none";
+
+                // تثبيت قيم اليوم والشهر في الصورة
+                ["monthInput", "dayInput"].forEach(id => {
+                    const original = document.getElementById(id);
+                    const clone = clonedDocument.getElementById(id);
+                    clone.value = original.value;
+                    clone.setAttribute("value", original.value);
+                });
+            }
+        });
+    } finally {
+        sheet.classList.remove("exporting");
+    }
+}
+
+function canvasToBlob(canvas) {
+    return new Promise((resolve, reject) => {
+        canvas.toBlob(blob => {
+            if (blob) resolve(blob);
+            else reject(new Error("تعذر إنشاء ملف الصورة."));
+        }, "image/png");
+    });
+}
+
+function downloadBlob(blob) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "بيان-تشغيل-سيارات-شمال-المنيا.png";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+}
+
+/* مسح كل البيانات التي كتبها المستخدم بعد التصدير */
+function clearEnteredData() {
+    document.querySelectorAll('[data-entry="true"]').forEach(cell => {
+        cell.replaceChildren();
+    });
+
+    document.getElementById("monthInput").value = "";
+    document.getElementById("dayInput").value = "";
+
+    setStatus("تم تجهيز البيان ومسح البيانات المدخلة. يمكنك البدء من جديد.");
+}
+
+/* تنزيل الصورة ثم مسح البيانات بعد التقاطها */
+async function downloadImage() {
+    const button = document.getElementById("downloadButton");
+
+    button.disabled = true;
+    setStatus("جارٍ تجهيز صورة البيان بجودة عالية...");
+
+    try {
+        const canvas = await makeCanvas();
+        const blob = await canvasToBlob(canvas);
+
+        downloadBlob(blob);
+
+        // الصورة اتجهزت بالفعل؛ نمسح الخانات بعد بدء التنزيل
+        clearEnteredData();
+    } catch (error) {
+        console.error(error);
+        setStatus(error.message || "تعذر تنزيل الصورة.");
+        alert(error.message || "حدث خطأ أثناء تنزيل الصورة.");
+    } finally {
+        button.disabled = false;
+    }
+}
+
+/* مشاركة واتساب مع إرفاق الصورة إن كان المتصفح يدعم ذلك */
+async function shareWhatsApp() {
+    const button = document.getElementById("whatsappButton");
+
+    button.disabled = true;
+    setStatus("جارٍ تجهيز البيان للمشاركة...");
+
+    try {
+        const month = document.getElementById("monthInput").value;
+        const day = document.getElementById("dayInput").value;
+
+        const dateText = month && day
+            ? "2026/" + month + "/" + day
+            : month
+                ? "2026/" + month
+                : day
+                    ? "2026/--/" + day
+                    : "2026";
+
+        const message =
+            "بيان تشغيل سيارات شمال المنيا\n" +
+            "التاريخ: " + dateText + "\n" +
+            "مرفق صورة بيان التشغيل.";
+
+        const canvas = await makeCanvas();
+        const blob = await canvasToBlob(canvas);
+        const file = new File(
+            [blob],
+            "بيان-تشغيل-سيارات-شمال-المنيا.png",
+            { type: "image/png" }
+        );
+
+        if (
+            navigator.share &&
+            navigator.canShare &&
+            navigator.canShare({ files: [file] })
+        ) {
+            try {
+                await navigator.share({
+                    title: "بيان تشغيل سيارات شمال المنيا",
+                    text: message,
+                    files: [file]
+                });
+
+                clearEnteredData();
+                return;
+            } catch (error) {
+                if (error.name === "AbortError") {
+                    setStatus("تم إلغاء المشاركة، ولم يتم مسح البيانات.");
+                    return;
+                }
+
+                throw error;
+            }
+        }
+
+        // بديل للمتصفحات التي لا تدعم مشاركة الملفات
+        downloadBlob(blob);
+
+        const whatsappUrl =
+            "https://wa.me/?text=" + encodeURIComponent(message);
+
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
+        clearEnteredData();
+
+        alert(
+            "تم تنزيل صورة البيان وفتح واتساب.\n" +
+            "أرفق الصورة التي تم تنزيلها داخل المحادثة ثم أرسلها."
+        );
+
+    } catch (error) {
+        console.error(error);
+        setStatus(error.message || "تعذرت مشاركة البيان.");
+        alert(error.message || "حدث خطأ أثناء مشاركة البيان.");
+    } finally {
+        button.disabled = false;
+    }
+}
+</script>
+
 </body>
-
 </html>
